@@ -4,8 +4,6 @@ plugins {
     `maven-publish`
 }
 
-group = "com.github.crumbl"
-
 gradlePlugin {
     plugins {
         create("dopplerSecrets") {
