@@ -4,43 +4,67 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is **crumbl_utils**, an Android utility library project for Crumbl. It is currently a freshly scaffolded project with build infrastructure in place but no utility code implemented yet.
+**crumbl-android-utils** is a multi-module Gradle project for Crumbl containing:
+
+1. **`:doppler-secrets`** — A Gradle plugin that wraps the Doppler CLI as a `ValueSource` for build-time secret fetching
+2. **`:utils`** — An Android library module (placeholder for future runtime utility code)
+
+Both modules publish via JitPack from the same Git tag, so they always share the same version.
 
 ## Build Commands
 
 ```bash
-# Build the project
+# Build everything
 ./gradlew build
 
-# Run unit tests
-./gradlew test
+# Build only the Gradle plugin
+./gradlew :doppler-secrets:build
 
-# Run a single unit test class
-./gradlew test --tests "crumbl.android.utils.ExampleUnitTest"
-
-# Run instrumented (on-device/emulator) tests
-./gradlew connectedAndroidTest
+# Build only the Android library
+./gradlew :utils:build
 
 # Clean build
 ./gradlew clean
-
-# Assemble debug APK
-./gradlew assembleDebug
 ```
 
 ## Architecture
 
-- **Single module project** with an `:app` module (namespace: `crumbl.android.utils`)
-- Source code goes in `app/src/main/java/crumbl/android/utils/`
-- Unit tests in `app/src/test/java/crumbl/android/utils/` (JUnit 4)
-- Instrumented tests in `app/src/androidTest/java/crumbl/android/utils/` (AndroidX Test + Espresso)
+### `doppler-secrets/` — Gradle Plugin
+- Plugin ID: `com.crumbl.doppler-secrets`
+- Source: `doppler-secrets/src/main/kotlin/com/crumbl/gradle/`
+- `DopplerSecretsPlugin.kt` — No-op plugin that puts the extension function on the classpath
+- `DopplerSecretsValueSource.kt` — Gradle `ValueSource` that shells out to `doppler secrets download`; includes `ProviderFactory.dopplerSecrets()` extension
+- Uses `kotlin-dsl`, `java-gradle-plugin`, and `maven-publish` plugins
+
+### `utils/` — Android Library
+- Namespace: `crumbl.android.utils`
+- Source: `utils/src/main/java/crumbl/android/utils/`
+- Currently empty — scaffold for future utility code
 
 ## Build Configuration
 
 - **Gradle:** 9.2.1 with Kotlin DSL
-- **AGP:** 9.0.1
-- **Compile SDK:** 36 | **Min SDK:** 26 | **Target SDK:** 36
+- **AGP:** 9.0.1 (for `utils` module)
+- **Compile SDK:** 36 | **Min SDK:** 26
 - **Java:** 11 (source and target compatibility)
-- **JVM Toolchain:** Java 21 (for Gradle daemon)
 - Dependencies managed via version catalog at `gradle/libs.versions.toml`
 - Repository mode is `FAIL_ON_PROJECT_REPOS` — all repositories must be declared in `settings.gradle.kts`, not in module build files
+
+## Consumer Usage
+
+```kotlin
+// Consumer's settings.gradle.kts
+pluginManagement {
+    repositories {
+        maven("https://jitpack.io")
+    }
+}
+
+// Consumer's build.gradle.kts
+plugins {
+    id("com.crumbl.doppler-secrets") version "<tag>"
+}
+
+// Then in build logic:
+val secrets = providers.dopplerSecrets(project = "my-project", config = "dev")
+```
