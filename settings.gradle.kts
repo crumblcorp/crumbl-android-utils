@@ -25,5 +25,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "crumbl-android-utils"
 
-include(":doppler-secrets")
+include(":doppler-utils")
 include(":utils")

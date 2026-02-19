@@ -8,7 +8,7 @@ gradlePlugin {
     plugins {
         create("dopplerSecrets") {
             id = "com.crumbl.doppler-secrets"
-            implementationClass = "com.crumbl.gradle.DopplerSecretsPlugin"
+            implementationClass = "com.crumbl.gradle.DopplerUtilsPlugin"
         }
     }
 }

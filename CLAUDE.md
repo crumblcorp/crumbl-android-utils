@@ -6,10 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **crumbl-android-utils** is a multi-module Gradle project for Crumbl containing:
 
-1. **`:doppler-secrets`** — A Gradle plugin that wraps the Doppler CLI as a `ValueSource` for build-time secret fetching
+1. **`:doppler-utils`** — A Gradle plugin that wraps the Doppler CLI as a `ValueSource` for build-time secret fetching
 2. **`:utils`** — An Android library module (placeholder for future runtime utility code)
 
-Only `:doppler-secrets` is published to JitPack. The `:utils` module is local-only until it has actual code.
+Only `:doppler-utils` is published to JitPack. The `:utils` module is local-only until it has actual code.
 
 ## Build Commands
 
@@ -18,7 +18,7 @@ Only `:doppler-secrets` is published to JitPack. The `:utils` module is local-on
 ./gradlew build
 
 # Build only the Gradle plugin
-./gradlew :doppler-secrets:build
+./gradlew :doppler-utils:build
 
 # Build only the Android library
 ./gradlew :utils:build
@@ -29,10 +29,10 @@ Only `:doppler-secrets` is published to JitPack. The `:utils` module is local-on
 
 ## Architecture
 
-### `doppler-secrets/` — Gradle Plugin
+### `doppler-utils/` — Gradle Plugin
 - Plugin ID: `com.crumbl.doppler-secrets`
-- Source: `doppler-secrets/src/main/kotlin/com/crumbl/gradle/`
-- `DopplerSecretsPlugin.kt` — No-op plugin that puts the extension function on the classpath
+- Source: `doppler-utils/src/main/kotlin/com/crumbl/gradle/`
+- `DopplerUtilsPlugin.kt` — No-op plugin that puts the extension function on the classpath
 - `DopplerSecretsValueSource.kt` — Gradle `ValueSource` that shells out to `doppler secrets download`; includes `ProviderFactory.dopplerSecrets()` extension
 - Uses `kotlin-dsl`, `java-gradle-plugin`, and `maven-publish` plugins
 
@@ -50,7 +50,7 @@ Only `:doppler-secrets` is published to JitPack. The `:utils` module is local-on
 - Dependencies managed via version catalog at `gradle/libs.versions.toml`
 - Repository mode is `FAIL_ON_PROJECT_REPOS` — all repositories must be declared in `settings.gradle.kts`, not in module build files
 - **Group:** `com.github.crumblcorp` (set in `gradle.properties`; JitPack overrides via `-Pgroup`)
-- **JitPack:** `jitpack.yml` restricts publishing to `:doppler-secrets` only
+- **JitPack:** `jitpack.yml` restricts publishing to `:doppler-utils` only
 
 ## Consumer Usage
 
