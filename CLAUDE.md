@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 1. **`:doppler-secrets`** — A Gradle plugin that wraps the Doppler CLI as a `ValueSource` for build-time secret fetching
 2. **`:utils`** — An Android library module (placeholder for future runtime utility code)
 
-Both modules publish via JitPack from the same Git tag, so they always share the same version.
+Only `:doppler-secrets` is published to JitPack. The `:utils` module is local-only until it has actual code.
 
 ## Build Commands
 
@@ -49,6 +49,8 @@ Both modules publish via JitPack from the same Git tag, so they always share the
 - **Java:** 11 (source and target compatibility)
 - Dependencies managed via version catalog at `gradle/libs.versions.toml`
 - Repository mode is `FAIL_ON_PROJECT_REPOS` — all repositories must be declared in `settings.gradle.kts`, not in module build files
+- **Group:** `com.github.crumblcorp` (set in `gradle.properties`; JitPack overrides via `-Pgroup`)
+- **JitPack:** `jitpack.yml` restricts publishing to `:doppler-secrets` only
 
 ## Consumer Usage
 
