@@ -30,7 +30,7 @@ Only `:doppler-utils` is published to JitPack. The `:utils` module is local-only
 ## Architecture
 
 ### `doppler-utils/` — Gradle Plugin
-- Plugin ID: `com.crumbl.doppler-secrets`
+- Plugin ID: `com.crumbl.doppler-utils`
 - Source: `doppler-utils/src/main/kotlin/com/crumbl/gradle/`
 - `DopplerUtilsPlugin.kt` — No-op plugin that puts the extension function on the classpath
 - `DopplerSecretsValueSource.kt` — Gradle `ValueSource` that shells out to `doppler secrets download`; includes `ProviderFactory.dopplerSecrets()` extension
@@ -64,7 +64,7 @@ pluginManagement {
 
 // Consumer's build.gradle.kts
 plugins {
-    id("com.crumbl.doppler-secrets") version "<tag>"
+    id("com.crumbl.doppler-utils") version "<tag>"
 }
 
 // Then in build logic:
